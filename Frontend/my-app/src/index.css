@@ -1,0 +1,50 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  overflow-x: hidden;
+  height: 100%;
+}
+
+html {
+  overflow-y: hidden;
+}
+
+body {
+  min-height: 100%;
+  overflow-y: auto;
+  background-color: hsl(var(--b1));
+  background-image: none;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: hsl(var(--bc, 210 40% 92%));
+}
+
+#root {
+  min-height: 100%;
+  overflow: visible;
+}
+
+html[data-theme='speedecomeDark'] body {
+  background-image:
+    radial-gradient(900px circle at 20% -10%, rgba(45, 92, 136, 0.20), transparent 55%),
+    radial-gradient(700px circle at 85% 0%, rgba(201, 162, 39, 0.12), transparent 60%);
+}
+
+html[data-theme='speedecomeLight'] body {
+  background-image:
+    radial-gradient(900px circle at 22% -10%, rgba(45, 92, 136, 0.12), transparent 55%),
+    radial-gradient(700px circle at 88% 0%, rgba(201, 162, 39, 0.10), transparent 60%);
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}

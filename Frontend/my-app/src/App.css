@@ -1,0 +1,467 @@
+:root {
+  --container: 1200px;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+
+  --radius: 12px;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--space-4);
+  padding-right: var(--space-4);
+}
+
+.page {
+  padding: var(--space-6);
+}
+
+@media (min-width: 768px) {
+  .page {
+    padding: var(--space-10);
+  }
+}
+
+.card {
+  padding: var(--space-6);
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: var(--radius);
+  background: #fff;
+}
+
+.stack > * + * {
+  margin-top: var(--space-4);
+}
+
+.p-1 { padding: var(--space-1); }
+.p-2 { padding: var(--space-2); }
+.p-3 { padding: var(--space-3); }
+.p-4 { padding: var(--space-4); }
+.p-6 { padding: var(--space-6); }
+.p-8 { padding: var(--space-8); }
+
+.px-4 { padding-left: var(--space-4); padding-right: var(--space-4); }
+.px-6 { padding-left: var(--space-6); padding-right: var(--space-6); }
+.py-4 { padding-top: var(--space-4); padding-bottom: var(--space-4); }
+.py-6 { padding-top: var(--space-6); padding-bottom: var(--space-6); }
+
+.cta-pill {
+  appearance: none;
+  -webkit-appearance: none;
+  border: 1px solid rgba(201, 162, 39, 0.18);
+  background: #ffd037;
+  color: #0B1020;
+  border-radius: 9999px;
+  padding: 15px 18px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform 160ms ease, box-shadow 160ms ease, background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.cta-pill:hover {
+  background: #D9B33A;
+  border-color: rgba(201, 162, 39, 0.55);
+  color: #0B1020;
+  transform: translateY(-1px);
+  box-shadow: 0 14px 38px rgba(0, 0, 0, 0.34);
+}
+
+.cta-pill:active {
+  transform: translateY(0px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.cta-pill:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(47, 134, 255, 0.30), 0 14px 38px rgba(0, 0, 0, 0.34);
+}
+
+.cta-float {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 60;
+}
+
+@media (max-width: 520px) {
+  .cta-float {
+    right: 14px;
+    bottom: 14px;
+  }
+}
+
+.trusted-marquee {
+  position: relative;
+  overflow: hidden;
+  padding: 16px;
+}
+
+.trusted-track {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  width: max-content;
+  animation: trusted-marquee 150s linear infinite;
+}
+
+.trusted-marquee:hover .trusted-track {
+  animation-play-state: paused;
+}
+
+.trusted-item {
+  flex: 0 0 auto;
+}
+
+.trusted-item img {
+  height: 96px;
+  width: auto;
+  object-fit: cover;
+}
+
+.trusted-marquee, .testimonials-marquee {
+  background: rgba(15, 24, 48, 0.40);
+  border: 1px solid rgba(230, 237, 246, 0.10);
+}
+
+html[data-theme='speedecomeLight'] .trusted-marquee, html[data-theme='speedecomeLight'] .testimonials-marquee {
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(11, 44, 77, 0.10);
+}
+
+.testimonials-marquee {
+  position: relative;
+  overflow: hidden;
+  padding: 16px;
+}
+
+.testimonials-track {
+  display: flex;
+  align-items: stretch;
+  gap: 24px;
+  width: max-content;
+  animation: testimonials-marquee 80s linear infinite;
+}
+
+.testimonials-marquee:hover .testimonials-track {
+  animation-play-state: paused;
+}
+
+.testimonials-item {
+  flex: 0 0 auto;
+  width: min(420px, 86vw);
+}
+
+@keyframes trusted-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes testimonials-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .trusted-track {
+    animation: none;
+    transform: none;
+  }
+
+  .testimonials-track {
+    animation: none;
+    transform: none;
+  }
+}
+
+.journey-section {
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.journey-title {
+  font-size: 32px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.journey-timeline {
+  position: relative;
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.journey-line {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  transform: translateX(-50%);
+  background: linear-gradient(
+    to bottom,
+    rgba(47, 134, 255, 0.0),
+    rgba(47, 134, 255, 0.9),
+    rgba(47, 134, 255, 0.0)
+  );
+}
+
+.journey-item {
+  display: grid;
+  grid-template-columns: 1fr 60px 1fr;
+  align-items: center;
+  padding-top: 26px;
+  padding-bottom: 26px;
+}
+
+.journey-mid {
+  display: flex;
+  justify-content: center;
+}
+
+.journey-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 9999px;
+  background: rgba(47, 134, 255, 0.55);
+  box-shadow: 0 0 0 6px rgba(47, 134, 255, 0.12);
+}
+
+.journey-dot-active {
+  background: #2F86FF;
+  box-shadow: 0 0 0 8px rgba(47, 134, 255, 0.20), 0 0 22px rgba(47, 134, 255, 0.38);
+}
+
+.journey-side {
+  display: flex;
+}
+
+.journey-side-left {
+  justify-content: flex-end;
+  padding-right: 18px;
+}
+
+.journey-side-right {
+  justify-content: flex-start;
+  padding-left: 18px;
+}
+
+.journey-card {
+  width: min(420px, 100%);
+  border-radius: 14px;
+  padding: 18px 18px;
+  border: 1px solid rgba(230, 237, 246, 0.10);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+  transition: transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease, border-color 180ms ease;
+}
+
+.journey-card-dark {
+  background: rgba(15, 24, 48, 0.55);
+  color: hsl(var(--bc, 210 40% 92%));
+  border-color: rgba(230, 237, 246, 0.10);
+}
+
+.journey-card-blue {
+  background: #2F86FF;
+  color: #FFFFFF;
+  border-color: rgba(47, 134, 255, 0.60);
+}
+
+.journey-card-active {
+  box-shadow: 0 26px 80px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(47, 134, 255, 0.18);
+  transform: translateY(-2px);
+}
+
+.journey-phase {
+  font-size: 12px;
+  opacity: 0.85;
+  margin-bottom: 8px;
+}
+
+.journey-heading {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.journey-desc {
+  font-size: 13px;
+  opacity: 0.92;
+  line-height: 1.35;
+}
+
+@media (max-width: 900px) {
+  .journey-line {
+    left: 18px;
+    transform: none;
+  }
+
+  .journey-item {
+    grid-template-columns: 36px 1fr;
+    gap: 14px;
+  }
+
+  .journey-mid {
+    grid-column: 1;
+    justify-content: flex-start;
+  }
+
+  .journey-side {
+    grid-column: 2;
+  }
+
+  .journey-side-left,
+  .journey-side-right {
+    padding-left: 0;
+    padding-right: 0;
+    justify-content: flex-start;
+  }
+
+  .journey-card {
+    width: 100%;
+  }
+}
+
+@media (max-width: 520px) {
+  .journey-title {
+    font-size: 24px;
+    margin-bottom: 18px;
+  }
+
+  .journey-item {
+    padding-top: 18px;
+    padding-bottom: 18px;
+  }
+
+  .journey-card {
+    padding: 16px;
+  }
+
+  .journey-heading {
+    font-size: 16px;
+  }
+}
+
+.Pricing-box {
+  background-color: initial;
+  transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
+  transform: scale(1);
+  border-radius: 12px;
+  padding: 10px 5px;
+}
+
+.Pricing-box:hover {
+  background-color: rgb(20, 54, 147);
+  cursor: pointer;
+  transform: scale(1.02);
+}
+
+.Pricing-box:hover h2{
+  color: white;
+}
+
+html[data-theme='speedecomeLight'] .site-header {
+  background: transparent;
+}
+
+html[data-theme='speedecomeLight'] .site-header.is-scrolled {
+  background: rgba(247, 247, 244, 0.86);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(11, 44, 77, 0.10);
+}
+
+html[data-theme='speedecomeLight'] .site-header a {
+  color: hsl(var(--bc)) !important;
+}
+
+html[data-theme='speedecomeLight'] .site-header nav {
+  color: hsl(var(--bc)) !important;
+}
+
+html[data-theme='speedecomeLight'] .site-header nav a {
+  color: rgba(11, 44, 77, 0.78) !important;
+}
+
+html[data-theme='speedecomeLight'] .site-header nav a:hover {
+  color: hsl(var(--p)) !important;
+}
+
+html[data-theme='speedecomeLight'] .site-header .menu-toggle {
+  color: rgba(11, 44, 77, 0.88) !important;
+}
+
+html[data-theme='speedecomeLight'] .site-header .menu-toggle:hover {
+  background: rgba(11, 44, 77, 0.08) !important;
+}
+
+html[data-theme='speedecomeLight'] .site-header .mobile-menu {
+  background: rgba(247, 247, 244, 0.96) !important;
+  border-color: rgba(11, 44, 77, 0.10) !important;
+}
+
+html[data-theme='speedecomeLight'] .site-header .mobile-menu a {
+  color: rgba(11, 44, 77, 0.88) !important;
+}
+
+html[data-theme='speedecomeLight'] .site-header .mobile-menu a:hover {
+  background: rgba(11, 44, 77, 0.08) !important;
+  color: hsl(var(--bc)) !important;
+}
+
+html[data-theme='speedecomeLight'] .Trusted-Text h2 {
+  color: hsl(var(--bc)) !important;
+}
+
+html[data-theme='speedecomeLight'] .journey-card-dark {
+  background: rgba(255, 255, 255, 0.85);
+  color: hsl(var(--bc));
+  border-color: rgba(11, 44, 77, 0.12);
+  box-shadow: 0 16px 44px rgba(11, 44, 77, 0.10);
+}
+
+html[data-theme='speedecomeLight'] .journey-line {
+  background: linear-gradient(
+    to bottom,
+    rgba(45, 92, 136, 0.0),
+    rgba(45, 92, 136, 0.65),
+    rgba(45, 92, 136, 0.0)
+  );
+}
+
+html[data-theme='speedecomeLight'] .Pricing-box {
+  background-color: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(11, 44, 77, 0.10);
+}
+
+html[data-theme='speedecomeLight'] .Pricing-box:hover {
+  background-color: #2D5C88;
+}
+
+html[data-theme='speedecomeLight'] .Pricing-box:hover p {
+  color: rgba(255, 255, 255, 0.92) !important;
+}
