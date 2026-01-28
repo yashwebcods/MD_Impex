@@ -131,7 +131,7 @@ const BookDemo = () => {
     return (
         <>
            
-            <div className="min-h-screen" style={{ backgroundColor: 'rgb(20,41,65)' }}>
+            <div className="min-h-screen pt-[76px]" style={{ backgroundColor: 'rgb(20,41,65)' }}>
                 {/* Hero Section */}
                  <Header disableScrolledStyle />
                 <section className="relative overflow-hidden py-12 md:py-20">

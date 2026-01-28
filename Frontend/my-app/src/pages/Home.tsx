@@ -24,17 +24,31 @@ const Home = () => {
     const scrollTo = (location.state as { scrollTo?: string } | null)?.scrollTo
     if (!scrollTo) return
 
-    const el = document.getElementById(scrollTo)
-    if (el) {
-      const top = el.getBoundingClientRect().top + window.scrollY - 90
-      window.scrollTo({ top, behavior: 'smooth' })
+    let attempts = 0
+    const maxAttempts = 12
+
+    const tryScroll = () => {
+      const el = document.getElementById(scrollTo)
+      if (el) {
+        const top = el.getBoundingClientRect().top + window.scrollY - 90
+        window.scrollTo({ top, behavior: 'smooth' })
+        navigate('/', { replace: true, state: {} })
+        return
+      }
+
+      attempts += 1
+      if (attempts <= maxAttempts) {
+        window.setTimeout(tryScroll, 50)
+      } else {
+        navigate('/', { replace: true, state: {} })
+      }
     }
 
-    navigate('/', { replace: true, state: {} })
+    tryScroll()
   }, [location.state, navigate])
 
   return (
-    <div className='min-h-screen'  style={{ backgroundColor: 'rgb(20,41,65)' } }>
+    <div className='min-h-screen pt-[76px]'  style={{ backgroundColor: 'rgb(20,41,65)' } }>
       <div>
         <Header />
       </div>

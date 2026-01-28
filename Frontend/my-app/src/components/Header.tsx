@@ -11,6 +11,8 @@ const Header = ({ disableScrolledStyle }: HeaderProps) => {
     const location = useLocation()
     const navigate = useNavigate()
 
+    const scrollOffset = 90
+
     useEffect(() => {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 0)
@@ -31,11 +33,19 @@ const Header = ({ disableScrolledStyle }: HeaderProps) => {
         { label: 'Contact', id: 'contact' },
     ]
 
-    const scrollToSection = (id: string) => {
+    const scrollToSection = (id: string, attempt = 0) => {
         const el = document.getElementById(id)
-        if (!el) return
-        const top = el.getBoundingClientRect().top + window.scrollY - 20
-        window.scrollTo({ top, behavior: 'smooth' })
+        if (!el) {
+            if (attempt < 12) {
+                window.setTimeout(() => scrollToSection(id, attempt + 1), 50)
+            }
+            return
+        }
+
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        window.setTimeout(() => {
+            window.scrollBy({ top: -scrollOffset, behavior: 'smooth' })
+        }, 0)
     }
 
     const handleNav = (id: string) => {
@@ -48,9 +58,15 @@ const Header = ({ disableScrolledStyle }: HeaderProps) => {
     }
 
     return (
-        <header className={`site-header relative pb-3 ${!disableScrolledStyle && isScrolled ? 'is-scrolled' : ''}`}>
+        <header
+            className={`site-header fixed top-0 left-0 right-0 z-[80] pb-3 ${
+                !disableScrolledStyle && isScrolled
+                    ? 'is-scrolled bg-[#0A1020]/90 backdrop-blur border-b border-white/10'
+                    : ''
+            }`}
+        >
             <div className="mx-auto max-w-7xl px-4 md:px-8">
-                <div className=" flex h-14 items-center justify-between">
+                <div className="relative flex h-14 items-center justify-between">
                     <div className="flex items-center gap-3">
                         <button
                             type="button"
@@ -76,7 +92,7 @@ const Header = ({ disableScrolledStyle }: HeaderProps) => {
 
                     <button
                         type="button"
-                        className="menu-toggle md:hidden inline-flex items-center justify-center rounded-lg p-2 text-white/90 hover:bg-white/10"
+                        className="menu-toggle relative z-[70] md:hidden inline-flex items-center justify-center rounded-lg p-2 text-white/90 hover:bg-white/10"
                         aria-label="Open menu"
                         aria-expanded={isOpen}
                         onClick={() => setIsOpen((v) => !v)}
@@ -94,7 +110,7 @@ const Header = ({ disableScrolledStyle }: HeaderProps) => {
                     </button>
 
                     {isOpen ? (
-                        <div className="mobile-menu md:hidden absolute left-0 right-0 top-[calc(100%+12px)] rounded-2xl border border-white/10 bg-[#0A1020]/95 p-3 shadow-xl backdrop-blur">
+                        <div className="mobile-menu md:hidden absolute left-0 right-0 top-[calc(100%+12px)] z-[60] rounded-2xl border border-white/10 bg-[#0A1020]/95 p-3 shadow-xl backdrop-blur">
                             <nav className="flex flex-col">
                                 {links.map((l) => (
                                     <button
