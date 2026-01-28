@@ -90,7 +90,7 @@ const HomeTestimonials = () => {
                     </div>
 
                     {/* Pause on hover */}
-                    <style jsx>{`
+                    <style>{`
                         @keyframes marquee {
                             0% {
                                 transform: translateX(0%);

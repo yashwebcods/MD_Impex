@@ -83,7 +83,7 @@ const HomeTrustedBy = () => {
                 </div>
             </div>
 
-            <style jsx>{`
+            <style>{`
                 @keyframes marquee {
                     0% { transform: translateX(0); }
                     100% { transform: translateX(-50%); }
