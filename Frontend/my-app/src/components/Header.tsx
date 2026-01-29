@@ -36,16 +36,14 @@ const Header = ({ disableScrolledStyle }: HeaderProps) => {
     const scrollToSection = (id: string, attempt = 0) => {
         const el = document.getElementById(id)
         if (!el) {
-            if (attempt < 12) {
+            if (attempt < 24) {
                 window.setTimeout(() => scrollToSection(id, attempt + 1), 50)
             }
             return
         }
 
-        el.scrollIntoView({ behavior: 'smooth', block: 'start' })
-        window.setTimeout(() => {
-            window.scrollBy({ top: -scrollOffset, behavior: 'smooth' })
-        }, 0)
+        const top = el.getBoundingClientRect().top + window.scrollY - scrollOffset
+        window.scrollTo({ top, behavior: 'smooth' })
     }
 
     const handleNav = (id: string) => {
@@ -61,7 +59,7 @@ const Header = ({ disableScrolledStyle }: HeaderProps) => {
         <header
 
             className={`site-header fixed top-0 left-0 right-0 z-[80] pb-3 ${!disableScrolledStyle && isScrolled
-                ? 'is-scrolled bg-\[\#0A1020\]\/30 backdrop-blur border-b border-white/10'
+                ? 'is-scrolled bg-[#0A1020]/30 backdrop-blur border-b border-white/10'
                 : ''
                 }`}
         >

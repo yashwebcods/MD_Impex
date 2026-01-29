@@ -2,7 +2,7 @@ import { Facebook, Instagram, Linkedin, MapPin, Youtube } from 'lucide-react'
 
 const HomeFooter = () => {
     return (
-        <footer className=" py-16">
+        <footer className=" py-16 border-t border-white/45">
                 <div className="mx-auto max-w-6xl px-4">
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
                         <div className="lg:col-span-5">
@@ -19,7 +19,7 @@ const HomeFooter = () => {
 
                             <div className="flex items-center gap-3 mb-6">
                                 <a
-                                    href="#"
+                                    href="https://www.linkedin.com/company/md-impex/"
                                     className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-white/10 bg-white/5 text-white/85 transition-all hover:bg-[#2F86FF] hover:text-white"
                                     aria-label="LinkedIn"
                                 >
@@ -40,7 +40,7 @@ const HomeFooter = () => {
                                     <Youtube size={18} />
                                 </a>
                                 <a
-                                    href="#"
+                                    href="https://www.instagram.com/md_impex.ai/"
                                     className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-white/10 bg-white/5 text-white/85 transition-all hover:bg-[#2F86FF] hover:text-white"
                                     aria-label="Instagram"
                                 >
