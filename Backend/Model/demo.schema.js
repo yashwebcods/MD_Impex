@@ -5,6 +5,10 @@ const demoSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    city: {
+        type: String,
+        required: true
+    },
     phoneNumber: {
         type: String,
         required: true
@@ -12,6 +16,7 @@ const demoSchema = new mongoose.Schema({
 }, {
     timestamps: true
 })
+
 
 
 module.exports = mongoose.model('Demo', demoSchema)

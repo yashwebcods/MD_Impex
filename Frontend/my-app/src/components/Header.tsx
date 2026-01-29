@@ -59,21 +59,29 @@ const Header = ({ disableScrolledStyle }: HeaderProps) => {
 
     return (
         <header
-            className={`site-header fixed top-0 left-0 right-0 z-[80] pb-3 ${
-                !disableScrolledStyle && isScrolled
-                    ? 'is-scrolled bg-[#0A1020]/90 backdrop-blur border-b border-white/10'
-                    : ''
-            }`}
+
+            className={`site-header fixed top-0 left-0 right-0 z-[80] pb-3 ${!disableScrolledStyle && isScrolled
+                ? 'is-scrolled bg-\[\#0A1020\]\/30 backdrop-blur border-b border-white/10'
+                : ''
+                }`}
         >
+            <style>{`
+                @import url('https://fonts.googleapis.com/css2?family=Gotu&display=swap');
+                .gotu-regular {
+                    font-family: 'Gotu', sans-serif;
+                    font-weight: 400;
+                    font-style: normal;
+                }
+            `}</style>
             <div className="mx-auto max-w-7xl px-4 md:px-8">
                 <div className="relative flex h-14 items-center justify-between">
                     <div className="flex items-center gap-3">
                         <button
                             type="button"
-                            className="text-lg font-semibold tracking-wide text-white"
+                            className="text-lg gotu-regular font-Georgia font-semibold tracking-wide text-white"
                             onClick={() => handleNav('home')}
                         >
-                         md impex.ai
+                            md impex.ai
                         </button>
                     </div>
 

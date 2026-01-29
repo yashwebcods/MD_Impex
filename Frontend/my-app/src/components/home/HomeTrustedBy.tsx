@@ -47,9 +47,9 @@ const HomeTrustedBy = () => {
                     </div>
 
                     <h2 className="text-3xl md:text-4xl font-bold text-white mb-7">
-                        Trusted by{" "}
+                        Our{" "}
                         <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-emerald-400 bg-clip-text text-transparent">
-                            Buyers & Business Partners
+                           Cilents
                         </span>
                     </h2>
                 </div>

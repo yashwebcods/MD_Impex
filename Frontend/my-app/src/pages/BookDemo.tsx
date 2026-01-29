@@ -13,94 +13,40 @@ import {
 } from 'lucide-react'
 import Header from '../components/Header'
 import { demoApi, type DemoPayload } from '../services/api'
+import HomeTestimonials from '../components/home/HomeTestimonials'
 
 const BookDemo = () => {
     const [name, setName] = useState('')
+    const [city, setCity] = useState('')
     const [phone, setPhone] = useState('')
     const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
     const [statusMessage, setStatusMessage] = useState('')
 
-    const [testimonialPerPage, setTestimonialPerPage] = useState(3)
-    const [activeTestimonialPage, setActiveTestimonialPage] = useState(0)
+    const [touched, setTouched] = useState({ name: false, city: false, phone: false })
+    const [submitAttempted, setSubmitAttempted] = useState(false)
 
     const canSubmit = useMemo(() => {
-        return name.trim().length > 0 && phone.trim().length >= 10
-    }, [name, phone])
+        return name.trim().length > 0 && city.trim().length > 0 && phone.trim().length >= 10
+    }, [city, name, phone])
+
+    const errors = useMemo(() => {
+        const next: { name?: string; city?: string; phone?: string } = {}
+
+        if (!name.trim()) next.name = 'Please enter your name.'
+        if (!city.trim()) next.city = 'Please enter your city.'
+        if (!phone.trim()) next.phone = 'Please enter your phone number.'
+        else if (phone.trim().length < 10) next.phone = 'Phone number must be 10 digits.'
+
+        return next
+    }, [city, name, phone])
+
+    const showError = (field: keyof typeof touched) => {
+        return (touched[field] || submitAttempted) && Boolean(errors[field])
+    }
 
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: 'auto' })
     }, [])
-
-    useEffect(() => {
-        const mqLg = window.matchMedia('(min-width: 1024px)')
-        const mqSm = window.matchMedia('(min-width: 640px)')
-
-        const update = () => {
-            setTestimonialPerPage(mqLg.matches ? 3 : mqSm.matches ? 2 : 1)
-        }
-
-        update()
-        mqLg.addEventListener('change', update)
-        mqSm.addEventListener('change', update)
-        return () => {
-            mqLg.removeEventListener('change', update)
-            mqSm.removeEventListener('change', update)
-        }
-    }, [])
-
-    useEffect(() => {
-        setActiveTestimonialPage(0)
-    }, [testimonialPerPage])
-
-    const testimonials = useMemo(
-        () => [
-            {
-                title: 'Smooth Procurement & Clear Communication',
-                quote: 'MD Impex shared multiple options quickly and kept communication transparent from inquiry to dispatch. It made sourcing simple for our team.',
-                brand: 'Aarav Traders',
-                rating: 5
-            },
-            {
-                title: 'On-Time Dispatch with Proper Documentation',
-                quote: 'Packaging, labeling, and export documentation were handled professionally. Shipments reached on schedule with no last-minute surprises.',
-                brand: 'NorthBridge Imports',
-                rating: 5
-            },
-            {
-                title: 'Quality Checks We Can Trust',
-                quote: 'We appreciated the pre-dispatch checks and photo updates. The delivered quality matched the approved sample.',
-                brand: 'Kavya Enterprises',
-                rating: 5
-            },
-            {
-                title: 'Great Pricing with Reliable Suppliers',
-                quote: 'They negotiated fair pricing and aligned our requirements with the right manufacturers. This saved us time and reduced back-and-forth.',
-                brand: 'Bloom & Co.',
-                rating: 5
-            },
-            {
-                title: 'End-to-End Support for Bulk Orders',
-                quote: 'From inquiry to packing list, everything was handled properly. We were able to place bulk repeat orders with confidence.',
-                brand: 'Sunrise Wholesale',
-                rating: 5
-            },
-            {
-                title: 'Fast Updates & Professional Handling',
-                quote: 'We received timely updates on production and dispatch. The team stayed responsive and proactive throughout.',
-                brand: 'Global Market Hub',
-                rating: 5
-            },
-        ],
-        [],
-    )
-
-    const testimonialPages = useMemo(() => {
-        const pages = []
-        for (let i = 0; i < testimonials.length; i += testimonialPerPage) {
-            pages.push(testimonials.slice(i, i + testimonialPerPage))
-        }
-        return pages
-    }, [testimonialPerPage, testimonials])
 
     const roadSteps = useMemo(
         () => [
@@ -130,10 +76,9 @@ const BookDemo = () => {
 
     return (
         <>
-           
             <div className="min-h-screen pt-[76px]" style={{ backgroundColor: 'rgb(20,41,65)' }}>
                 {/* Hero Section */}
-                 <Header disableScrolledStyle />
+                <Header disableScrolledStyle />
                 <section className="relative overflow-hidden py-12 md:py-20">
                     <div className="absolute inset-0"></div>
                     <div className="relative mx-auto max-w-7xl px-4 md:px-8">
@@ -157,17 +102,21 @@ const BookDemo = () => {
                                     <form
                                         onSubmit={async (e) => {
                                             e.preventDefault()
+                                            setSubmitAttempted(true)
                                             if (!canSubmit || status === 'loading') return
                                             setStatus('loading')
                                             setStatusMessage('')
                                             try {
-                                                const payload: DemoPayload = { name, phoneNumber: phone }
+                                                const payload: DemoPayload = { name, city, phoneNumber: phone }
                                                 const result = await demoApi.submitDemo(payload)
                                                 if (!result.success) throw new Error(result.message || 'Submission failed')
                                                 setStatus('success')
                                                 setStatusMessage(result.message || 'Demo request submitted successfully!')
                                                 setName('')
+                                                setCity('')
                                                 setPhone('')
+                                                setTouched({ name: false, city: false, phone: false })
+                                                setSubmitAttempted(false)
                                             } catch (err: any) {
                                                 setStatus('error')
                                                 setStatusMessage(err.message || 'Something went wrong. Please try again.')
@@ -177,25 +126,54 @@ const BookDemo = () => {
                                         <div className="space-y-6">
                                             {/* Name Field */}
                                             <div className="group">
-                                                <label className="block text-sm font-medium text-white/70 mb-2">
+                                                <label className="block text-sm font-semibold text-white/80 mb-2">
                                                     Your Name <span className="text-red-400">*</span>
                                                 </label>
                                                 <div className="relative">
                                                     <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 rounded-xl blur opacity-0 group-focus-within:opacity-100 transition-opacity duration-300"></div>
                                                     <input
-                                                        className="relative w-full rounded-xl border border-white/10 bg-white/5 px-5 py-4 text-white outline-none transition-all duration-300 focus:border-blue-500/50 focus:bg-white/10 placeholder-white/30"
+                                                        className={`relative w-full rounded-xl border bg-white/5 px-5 py-4 text-white outline-none transition-all duration-200 placeholder-white/30 focus:bg-white/10 focus:border-blue-500/50 focus:ring-2 focus:ring-cyan-500/20 ${showError('name') ? 'border-red-500/40' : 'border-white/10'}`}
                                                         placeholder="Enter Your Name"
                                                         value={name}
                                                         onChange={(e) => setName(e.target.value)}
+                                                        onBlur={() => setTouched((p) => ({ ...p, name: true }))}
+                                                        autoComplete="name"
+                                                        aria-invalid={showError('name')}
                                                         required
                                                     />
                                                     <div className="absolute left-0 bottom-0 w-0 h-0.5 bg-gradient-to-r from-blue-500 to-cyan-500 group-focus-within:w-full transition-all duration-500"></div>
                                                 </div>
+                                                {showError('name') ? (
+                                                    <div className="mt-2 text-xs font-semibold text-red-300">{errors.name}</div>
+                                                ) : null}
+                                            </div>
+
+                                            <div className="group">
+                                                <label className="block text-sm font-semibold text-white/80 mb-2">
+                                                    City <span className="text-red-400">*</span>
+                                                </label>
+                                                <div className="relative">
+                                                    <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 rounded-xl blur opacity-0 group-focus-within:opacity-100 transition-opacity duration-300"></div>
+                                                    <input
+                                                        className={`relative w-full rounded-xl border bg-white/5 px-5 py-4 text-white outline-none transition-all duration-200 placeholder-white/30 focus:bg-white/10 focus:border-blue-500/50 focus:ring-2 focus:ring-cyan-500/20 ${showError('city') ? 'border-red-500/40' : 'border-white/10'}`}
+                                                        placeholder="Enter City"
+                                                        value={city}
+                                                        onChange={(e) => setCity(e.target.value)}
+                                                        onBlur={() => setTouched((p) => ({ ...p, city: true }))}
+                                                        autoComplete="address-level2"
+                                                        aria-invalid={showError('city')}
+                                                        required
+                                                    />
+                                                    <div className="absolute left-0 bottom-0 w-0 h-0.5 bg-gradient-to-r from-blue-500 to-cyan-500 group-focus-within:w-full transition-all duration-500"></div>
+                                                </div>
+                                                {showError('city') ? (
+                                                    <div className="mt-2 text-xs font-semibold text-red-300">{errors.city}</div>
+                                                ) : null}
                                             </div>
 
                                             {/* Phone Field */}
                                             <div className="group">
-                                                <label className="block text-sm font-medium text-white/70 mb-2">
+                                                <label className="block text-sm font-semibold text-white/80 mb-2">
                                                     Phone Number <span className="text-red-400">*</span>
                                                 </label>
                                                 <div className="relative">
@@ -205,7 +183,7 @@ const BookDemo = () => {
                                                             +91
                                                         </span>
                                                         <input
-                                                            className="w-full rounded-r-xl border border-white/10 bg-white/5 px-5 py-4 text-white outline-none transition-all duration-300 focus:border-blue-500/50 focus:bg-white/10 placeholder-white/30"
+                                                            className={`w-full rounded-r-xl border bg-white/5 px-5 py-4 text-white outline-none transition-all duration-200 placeholder-white/30 focus:bg-white/10 focus:border-blue-500/50 focus:ring-2 focus:ring-cyan-500/20 ${showError('phone') ? 'border-red-500/40' : 'border-white/10'}`}
                                                             inputMode="numeric"
                                                             placeholder="Enter 10 Digit Phone Number"
                                                             value={phone}
@@ -213,11 +191,19 @@ const BookDemo = () => {
                                                                 const next = e.target.value.replace(/\D/g, '').slice(0, 10)
                                                                 setPhone(next)
                                                             }}
+                                                            onBlur={() => setTouched((p) => ({ ...p, phone: true }))}
+                                                            autoComplete="tel"
+                                                            aria-invalid={showError('phone')}
                                                             required
                                                         />
                                                     </div>
                                                     <div className="absolute left-0 bottom-0 w-0 h-0.5 bg-gradient-to-r from-blue-500 to-cyan-500 group-focus-within:w-full transition-all duration-500"></div>
                                                 </div>
+                                                {showError('phone') ? (
+                                                    <div className="mt-2 text-xs font-semibold text-red-300">{errors.phone}</div>
+                                                ) : (
+                                                    <div className="mt-2 text-xs font-semibold text-white/45">We’ll only use this to contact you about your demo.</div>
+                                                )}
                                             </div>
 
                                         </div>
@@ -225,7 +211,7 @@ const BookDemo = () => {
                                         {/* Submit Button */}
                                         <button
                                             type="submit"
-                                            className={`mt-8 w-full py-4 px-6 rounded-xl font-semibold text-lg shadow-lg transition-all duration-300 transform ${canSubmit && status !== 'loading' ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:shadow-xl hover:shadow-blue-500/30 hover:-translate-y-1 active:translate-y-0' : 'cursor-not-allowed bg-white/10 text-white/50'}`}
+                                            className={`mt-8 w-full py-4 px-6 rounded-xl font-semibold text-lg shadow-lg transition-all duration-200 transform ${canSubmit && status !== 'loading' ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:shadow-xl hover:shadow-blue-500/30 hover:-translate-y-0.5 active:translate-y-0' : 'cursor-not-allowed bg-white/10 text-white/50'}`}
                                             disabled={!canSubmit || status === 'loading'}
                                         >
                                             <span className="flex items-center justify-center gap-2">
@@ -237,7 +223,7 @@ const BookDemo = () => {
                                                         </svg>
                                                         Submitting...
                                                     </>
-                                                ) : canSubmit ? 'Book Free Demo Now' : 'Fill all required fields'}
+                                                ) : canSubmit ? 'Book Free Demo' : 'Complete required fields'}
                                                 {canSubmit && status !== 'loading' && <ArrowRight className="w-5 h-5" />}
                                             </span>
                                         </button>
@@ -256,7 +242,7 @@ const BookDemo = () => {
                 </section>
 
                 {/* Testimonials Section - UPDATED BACKGROUND */}
-                <section className="py-16">
+                {/* <section className="py-16">
                     <div className="mx-auto max-w-6xl px-4">
                         <div className="text-center">
                             <h2 className="text-4xl font-bold text-white mb-4">
@@ -305,8 +291,8 @@ const BookDemo = () => {
                             ))}
                         </div>
                     </div>
-                </section>
-
+                </section> */}
+                <HomeTestimonials/>
                 {/* Roadmap Section - UPDATED BACKGROUND */}
                 <section className="py-16">
                     <div className="mx-auto max-w-6xl px-4">

@@ -68,12 +68,14 @@ async function request<T>(
 // -------------------
 export interface DemoPayload {
   name: string
+  city: string
   phoneNumber: string
 }
 
 export interface DemoRecord {
   _id: string
   name: string
+  city: string
   phoneNumber: string
   createdAt: string
   updatedAt: string

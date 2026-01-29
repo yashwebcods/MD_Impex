@@ -6,7 +6,6 @@ import HomeBanner from '../components/home/HomeBanner'
 import AboutMdImpexSection from '../components/home/AboutMdImpexSection'
 import HomeContact from '../components/home/HomeContact'
 import HomeFooter from '../components/home/HomeFooter'
-import HomeImpact from '../components/home/HomeImpact'
 import HomeJourney from '../components/home/HomeJourney'
 import HomeServices from '../components/home/HomeServices'
 import HomeTestimonials from '../components/home/HomeTestimonials'
@@ -64,10 +63,10 @@ const Home = () => {
             <ScrollReveal variant="fadeRight" delayMs={50} resetDelayMs={120} enterThreshold={0.18} exitThreshold={0.02}>
               <HomeTrustedBy />
             </ScrollReveal>
-
+{/* 
             <ScrollReveal variant="tiltUp" delayMs={100} resetDelayMs={120} enterThreshold={0.18} exitThreshold={0.02}>
               <HomeImpact />
-            </ScrollReveal>
+            </ScrollReveal> */}
 
             {/* Journey Section */}
             <ScrollReveal variant="fadeLeft" delayMs={150} resetDelayMs={120} enterThreshold={0.18} exitThreshold={0.02}>
@@ -77,6 +76,7 @@ const Home = () => {
             <ScrollReveal variant="blurUp" delayMs={200} resetDelayMs={120} enterThreshold={0.18} exitThreshold={0.02}>
               <HomeServices />
             </ScrollReveal>
+
             <ScrollReveal variant="fadeUp" delayMs={250} resetDelayMs={120} enterThreshold={0.18} exitThreshold={0.02}>
               <ServicesOfferings />
             </ScrollReveal>
@@ -84,7 +84,7 @@ const Home = () => {
             <ScrollReveal variant="fadeRight" delayMs={300} resetDelayMs={120} enterThreshold={0.18} exitThreshold={0.02}>
               <HomeWhyImpex />
             </ScrollReveal>
-            {/* Testimonial Section */}
+
             <ScrollReveal variant="fadeLeft" delayMs={350} resetDelayMs={120} enterThreshold={0.18} exitThreshold={0.02}>
               <HomeTestimonials />
             </ScrollReveal>

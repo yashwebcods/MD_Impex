@@ -2,14 +2,14 @@ const DemoData = require('../Model/demo.schema')
 
 const addDemo = async (req, res) => {
    console.log('Request body:', req.body);
-   const { name, phoneNumber } = req.body;
+   const { name, city, phoneNumber } = req.body;
 
-   if(!name || !phoneNumber) {
-       console.log('Validation failed:', { name, phoneNumber });
+   if(!name || !city || !phoneNumber) {
+       console.log('Validation failed:', { name, city, phoneNumber });
        return res.status(400).json({
            success: false,
-           message: 'Name and phone number are required',
-           received: { name, phoneNumber }
+           message: 'Name, city and phone number are required',
+           received: { name, city, phoneNumber }
        });
    }
 
@@ -23,6 +23,7 @@ const addDemo = async (req, res) => {
 
    const demo = new DemoData({
        name,
+       city,
        phoneNumber
    });
 

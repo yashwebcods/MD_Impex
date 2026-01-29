@@ -7,11 +7,12 @@ type Props = {
 
 const AboutMdImpexSection = ({ compact = false }: Props) => {
   const points = [
-    '3000+ e-commerce websites  experience',
+    '3000+ D2c e-commerce websites experience',
     'performance marketing expertise',
-    'Amazon Authorized SmartBiz Partner',
+    'SmartBiz Partner',
     'Complete website + marketing + logistics support',
     'Dedicated team for sellers',
+    'ai base marketing',
   ]
 
   return (
@@ -25,7 +26,7 @@ const AboutMdImpexSection = ({ compact = false }: Props) => {
             </h2>
             <p className="mt-5 text-sm leading-relaxed text-white/75 md:text-base">
               MD Impex is a performance-driven e-commerce agency and Authorized SmartBiz Partner, helping brands launch,
-              scale, and grow their D2C websites powered by Amazon technology.
+              scale, and grow their D2C websites.
             </p>
 
             <div className="mt-8 grid gap-3">

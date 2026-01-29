@@ -9,13 +9,22 @@ const port = process.env.PORT || 3000;
 const app = express();
 const db = require('./Config/mongoose');
 
-// Enable preflight and allow all origins for development
-app.use(cors({
-    origin: true, // allow all origins
+const corsOptions = {
+    origin: [
+        'http://localhost:5173',
+        'http://127.0.0.1:5173',
+        'https://mdimpex.in',
+        'https://www.mdimpex.in',
+    ],
     credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
-}))
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+}
+
+app.use(cors(corsOptions))
+
+// Explicit preflight handling (prevents non-2xx OPTIONS responses blocking browsers)
+app.options(/.*/, cors(corsOptions))
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

@@ -3,9 +3,15 @@ import { Link } from 'react-router-dom'
 
 const HomeBanner = () => {
   const [isVisible, setIsVisible] = useState(false)
-  const bannerRef = useRef(null)
+  const bannerRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
+    const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches
+    if (reduceMotion) {
+      setIsVisible(true)
+      return
+    }
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -15,7 +21,7 @@ const HomeBanner = () => {
           }
         })
       },
-      { threshold: 0.1 }
+      { threshold: 0.2, rootMargin: '0px 0px -18% 0px' }
     )
 
     if (bannerRef.current) {
@@ -49,33 +55,38 @@ const HomeBanner = () => {
       {/* Main content container */}
       <div
         ref={bannerRef}
-        className={`w-full max-w-5xl transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        className={`w-full max-w-5xl transform-gpu transition-all duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] ${isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-10 scale-[0.98]'
           }`}
       >
         {/* Content wrapper with glass effect */}
         <div>
           {/* Main heading with perfect sizing */}
           <div className="text-center">
-            <h1 className={`text-4xl font-bold leading-tight text-white transition-all duration-700 md:text-5xl lg:text-5xl ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+            <h1 className={`text-4xl font-bold leading-tight text-white transform-gpu transition-all duration-800 ease-[cubic-bezier(0.22,1,0.36,1)] md:text-5xl lg:text-5xl ${isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-8 scale-[0.985]'
               }`}>
               <span className="block">Scaling Your Business Through Powerful </span>
-              <span className={`mt-4 block bg-gradient-to-r from-blue-400 via-cyan-400 to-emerald-400 bg-clip-text text-transparent leading-[1.4] transition-all duration-700 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+              <span className={`animated-gradient-text mt-4 block bg-gradient-to-r from-blue-400 via-cyan-400 to-emerald-400 bg-clip-text text-transparent leading-[1.4] transform-gpu transition-all duration-800 ease-[cubic-bezier(0.22,1,0.36,1)] delay-300 ${isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-8 scale-[0.985]'
                 }`}>
                 Digital Marketing Strategies
               </span>
             </h1>
             {/* Subheading with perfect line spacing */}
-            <p className={`mx-auto mt-3 max-w-2xl text-lg leading-relaxed text-gray-300 transition-all duration-700 delay-500 md:text-xl md:leading-relaxed ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+            <p className={`mx-auto mt-3 max-w-2xl text-lg leading-relaxed text-gray-300 transform-gpu transition-all duration-800 ease-[cubic-bezier(0.22,1,0.36,1)] delay-500 md:text-xl md:leading-relaxed ${isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-8 scale-[0.99]'
               }`}> We provide a complete one-stop solution covering performance marketing and end-to-end website setup to help brands scale faster.
             </p>
 
             {/* CTA Button - prominent on dark theme */}
-            <div className={`mt-16 transition-all duration-700 delay-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+            <div className={`mt-16 transform-gpu transition-all duration-900 ease-[cubic-bezier(0.22,1,0.36,1)] delay-1000 ${isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-10 scale-[0.99]'
               }`}>
               <Link
                 className="group relative inline-flex items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-r from-blue-600 via-cyan-600 to-emerald-600 px-12 py-5 font-semibold text-white shadow-2xl shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-blue-500/50 active:scale-95"
                 to="/book-demo"
               >
+                <span
+                  aria-hidden="true"
+                  className={`cta-glow absolute -inset-10 rounded-[28px] bg-gradient-to-r from-blue-400/25 via-cyan-400/18 to-emerald-400/22 blur-2xl ${isVisible ? 'opacity-100' : 'opacity-0'
+                    }`}
+                />
                 {/* Hover gradient overlay */}
                 <span className="absolute inset-0 h-full w-full bg-gradient-to-r from-blue-700 via-cyan-700 to-emerald-700 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></span>
 
@@ -116,6 +127,36 @@ const HomeBanner = () => {
         
         .animation-delay-2000 {
           animation-delay: 2s;
+        }
+
+        @keyframes gradientShift {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+
+        .animated-gradient-text {
+          background-size: 200% 200%;
+          animation: gradientShift 7s ease-in-out infinite;
+        }
+
+        @keyframes ctaGlow {
+          0%, 100% { opacity: 0.55; transform: scale(0.98); }
+          50% { opacity: 0.9; transform: scale(1); }
+        }
+
+        .cta-glow {
+          animation: ctaGlow 2.8s ease-in-out infinite;
+          pointer-events: none;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .animate-float,
+          .animate-shimmer,
+          .animated-gradient-text,
+          .cta-glow {
+            animation: none !important;
+          }
         }
         
         /* Glow effect for text */
